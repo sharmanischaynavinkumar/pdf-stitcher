@@ -15,10 +15,12 @@ RUN groupadd --gid 1000 vscode \
 WORKDIR /workspaces
 
 # Create virtual environment
-RUN python -m venv /opt/venv
+ENV VIRTUAL_ENV="/opt/venv"
+RUN python -m venv $VIRTUAL_ENV \
+    && . $VIRTUAL_ENV/bin/activate
 
 # Activate virtual environment and add to PATH
-ENV PATH="/opt/venv/bin:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Copy requirements first for better caching
 COPY requirements*.txt ./
@@ -36,6 +38,5 @@ RUN chown -R vscode:vscode /workspaces /opt/venv
 # Switch to non-root user
 USER vscode
 
-# Set up Python path and ensure virtual environment is activated
+# Set up Python path
 ENV PYTHONPATH=/workspaces/pdf-stitcher/src
-ENV PATH="/opt/venv/bin:$PATH"
