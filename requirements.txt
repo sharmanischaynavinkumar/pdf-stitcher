@@ -1,0 +1,5 @@
+pypdf==4.0.1
+Pillow==10.2.0
+reportlab==4.0.9
+click==8.1.7
+pathlib2==2.3.7
